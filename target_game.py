@@ -70,3 +70,75 @@ def get_words(f: str, letters: List[str]) -> List[str]:
     return words_best
 # print(get_words("en1.txt", ["r", "a", "u", "n", "r", "f", "a", "e", "o"]))
 
+
+def get_user_words() -> List[str]:
+    """
+    Gets words from user input and returns a list with these words.
+    Usage: enter a word or press ctrl+d to finish.
+    """
+    user = input()
+    user_list = []
+    while user != "":
+        user_list.append(user)
+        user = input()
+    return user_list
+# print(get_user_words())
+
+
+def get_pure_user_words(words, letters, words_from_dict):
+    """
+    (list, list, list) -> list
+
+    Checks user words with the rules and returns list of those words
+    that are not in dictionary.
+    """
+    words_best = []
+    for i in range(len(words)):
+        words[i] = words[i].lower()
+        # print(words[i], len(words[i]))
+        if 3 < len(words[i]) < 10 and letters[4] in words[i]:
+            # print("+")
+            let = list(words[i])
+            values = []
+            for k in range(len(let)):
+                sig = words[i].count(let[k])
+                values.append(sig)
+            k = 0
+            dictionary1 = {}
+            for u in let:
+                dictionary1[u] = values[k]
+                k += 1
+            # print(dictionary1)
+            val = []
+            for b in range(len(letters)):
+                lette = "".join(letters)
+                fab = lette.count(letters[b])
+                val.append(fab)
+            j = 0
+            dictionary2 = {}
+            for c in letters:
+                dictionary2[c] = val[j]
+                j += 1
+            # print(dictionary2)
+            crak = 0
+            for el in dictionary1:
+                # print(el)
+                if (el in dictionary2) and dictionary1[el] <= dictionary2[el]:
+                    crak += 1
+            # print(crak, len(dictionary1))
+            if crak == len(dictionary1):
+                words_best.append(words[i])
+    to_del = []
+    for e in range(len(words_best)):
+        if words_best[e] in words_from_dict:
+            to_del.append(words_best[e])
+    result = words_best
+    for element in to_del:
+        if element in result:
+            result.remove(element)
+    return result
+
+# print(get_pure_user_words(['fady', 'dadg', 'addv', 'dafv'], ['a', 'd', 'g', 'f', 'd', 'q', 'v', 'r', 'y'], ['fady', 'dadg', 'addv']))
+
+def results():
+    pass
